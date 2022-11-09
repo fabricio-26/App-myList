@@ -1,34 +1,34 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import firebase from './src/firebaseConnection';
+import { View, StyleSheet, Text, TouchableOpacity, SafeAreaView, TextInput } from 'react-native';
+
+import Login from './src/components/Login/index'
 
 console.disableYellowBox=true;
 
 export default function App() {
-  const [nome, setNome] = useState('Carregando...')
+  const [user, setUser] = useState(null)
   
-  useEffect(() => {
-    async function dados() {
-      await firebase.database().ref('nome').on('value', (snapshot) => {
-        setNome(snapshot.val())
-      })
-    }
-    dados()
-  },[])
+ 
+
+
+
+  if(!user){
+    return <Login/>
+  }
 
  return (
-   <View style={styles.container}>
-      <Text style={styles.text}>Olá {nome}</Text>
-   </View>
+   <SafeAreaView style={styles.container}>
+    <Text>DENTRO DA TELA DE TAREFAS</Text>
+   </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container:{
     flex: 1,
-    marginTop:25
+    paddingTop:25,
+    paddingHorizontal: 10,
+    backgroundColor:'#f2f6fc'
   },
-  text:{
-    fontSize: 25
-  }
+  
 })

@@ -5,7 +5,7 @@ import firebase from '../../services/firebaseConnection';
 
 
 
-export default function Login() {
+export default function Login( {thisUserStatus} ) {
   const [type, setType] = useState('login')
 
   const [email, setEmail] = useState('')
@@ -15,12 +15,12 @@ export default function Login() {
     if(type === 'login'){        //Fazer Login
       const user = firebase.auth().signInWithEmailAndPassword(email,password)
         .then((user) => {
-          console.log(user)
+          thisUserStatus(user.user.uid)
         })
     }else{                       //Cadastrar user
       const user = firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((user) => {
-        console.log(user)
+        thisUserStatus(user.user.uid)
       }).catch((error) => {
         console.log(error)
         alert('Ops, parece que algo está errado!');

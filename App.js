@@ -13,7 +13,7 @@ export default function App() {
 
 
   if(!user){
-    return <Login/>
+    return <Login thisUserStatus={ (user) => setUser(user) }/>
   }
 
  return (

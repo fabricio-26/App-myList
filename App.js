@@ -22,7 +22,13 @@ export default function App() {
   const [user, setUser] = useState(null)
   const [newTask, setNewTask] = useState('')
 
+  function handleDelete(key){
+    console.log(key)
+  }
 
+  function handleEdit(data){
+    console.log("ITEM CLICADO", data)
+  }
 
 
 
@@ -48,7 +54,7 @@ export default function App() {
       <FlatList
       data={tasks}
       keyExtractor={item => item.key}
-      renderItem={({item}) => <TaskList data={item}/>}
+      renderItem={({item}) => <TaskList data={item} deleteItem={handleDelete} editItem={handleEdit}/>}
       />
     </SafeAreaView>
   );

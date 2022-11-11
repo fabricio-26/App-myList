@@ -6,21 +6,20 @@ import {
   SafeAreaView, 
   TextInput, 
   TouchableOpacity, 
-  FlatList
+  FlatList,
+  Keyboard
 } from 'react-native';
 
 import Login from './src/components/Login';
 import TaskList from './src/components/TaskList';
-console.disableYellowBox = true;
 
-let tasks = [
-  {key: '1', nome: "Comprar Coca Cola"},
-  {key: '2', nome: "Estudar Js"}
-]
+import firebase from './src/services/firebaseConnection'
+console.disableYellowBox = true;
 
 export default function App() {
   const [user, setUser] = useState(null)
   const [newTask, setNewTask] = useState('')
+  const [tasks, setTasks] = useState([])
 
   function handleDelete(key){
     console.log(key)
@@ -28,6 +27,31 @@ export default function App() {
 
   function handleEdit(data){
     console.log("ITEM CLICADO", data)
+  }
+
+  function handleAdd(){
+    if(newTask === ''){
+      return;
+    }
+
+    let tarefas = firebase.database().ref('tarefas').child(user);
+    let chave = tarefas.push().key;
+
+    tarefas.child(chave).set({
+      nome: newTask
+    })
+    .then(() => {
+      const data ={
+        key: chave,
+        nome: newTask
+      }
+
+      setTasks(oldTasks => [...oldTasks, data])
+    })
+
+    Keyboard.dismiss()
+    setNewTask('')
+
   }
 
 
@@ -46,7 +70,7 @@ export default function App() {
           style={styles.input}
         />
 
-        <TouchableOpacity style={styles.buttonAdd}>
+        <TouchableOpacity style={styles.buttonAdd} onPress={handleAdd}>
           <Text style={styles.buttonText}>+</Text>
         </TouchableOpacity>
       </View>

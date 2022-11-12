@@ -73,6 +73,7 @@ export default function App() {
       setKey('')
       return;
     }
+    
 
     let tarefas = firebase.database().ref('tarefas').child(user);
     let chave = tarefas.push().key;
